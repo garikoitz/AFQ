@@ -35,12 +35,13 @@ function [status, results, fg, pathstr] = AFQ_mrtrix_track(files, ...
 % directly in AFQ_Create. Be careful, the options for mrTrix2 and mrTrix3 are
 % very different. See AFQ_Create for all the available options.
 
-status = 0; results = [];
+status = 0; results = []; 
 if notDefined('verbose'),  verbose = false;end
 if notDefined('bkgrnd'),    bkgrnd = false;end
 if notDefined('clobber'),  clobber = false;end
 if notDefined('mrtrixVersion'),    mrtrixVersion = 3;end
 if notDefined('multishell'),  multishell = false;end
+if notDefined('force'),  force = false;end
 
 % REMOVE THIS IN THE REVIEW
 % See AFQ_Create, as indicated by Jason I included the algo in the creation
@@ -123,16 +124,14 @@ if mrtrixVersion == 3
                        '-seed_image ' roi ' ' ...
                        '-mask ' mask ' ' ...
                        '-num ' num2str(nSeeds) ' ' ...
-                       tck_file ' ' ...
-                       '-force'];
+                       tck_file];
         else 
             cmd_str = ['tckgen ' files.csd ' ' ...
                        '-algo ' algo ' ' ...
                        '-seed_image ' roi ' ' ...
                        '-act ' files.tt5 ' ' ...
                        '-num ' num2str(nSeeds) ' ' ...
-                       tck_file ' ' ...
-                       '-force'];
+                       tck_file];
         end
       case {'FACT', 'iFOD1', 'Nulldist1', 'Nulldist2', 'SD_Stream','Seedtest', 'Tensor_Det', 'Tensor_Prob'}
         error('Wrapper for algo "%s" not implemented yet. Add the case here and remove it from this list. Use the examples below to build your algorithm.', algo);
@@ -140,7 +139,6 @@ if mrtrixVersion == 3
         error('Input "%s" is not a valid tracking algo in mrTrix3', algo);
     end 
 end
-
 
 
 % Track using the command in the UNIX terminal
@@ -153,6 +151,10 @@ end
 % Convert the .tck fibers created by mrtrix to mrDiffusion/Quench format (pdb):
 pdb_file = fullfile(pathstr,strcat(strip_ext(tck_file), '.pdb'));
 fg = mrtrix_tck2pdb(tck_file, pdb_file);
+
+
+
+
 
 end 
 
