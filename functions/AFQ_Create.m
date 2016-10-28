@@ -194,6 +194,7 @@ afq.params.track.seedVoxelOffsets = [0.25 0.75];
 % Mask from which to initialize tracking
 afq.params.track.faMaskThresh = 0.30;
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Modify default parameters based on user input                          %
 afq = afqVarargin(afq, varargin);                                         %
@@ -229,6 +230,7 @@ if afq.software.mrtrix == 1 && afq.params.computeCSD > 0
     % provided by the freesurfer pipeline, tested with aparc+aseg.mgz
     afq.params.track.tool = 'freesurfer';  
 end
+
 
 % TODO:
 %  Write a parameter translation routine based on mrvParamFormat()
