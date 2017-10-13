@@ -210,16 +210,7 @@ end
 pdb_file = fullfile(pathstr,strcat(strip_ext(tck_file), '.pdb'));
 fg = mrtrix_tck2pdb(tck_file, pdb_file);
 
-<<<<<<< HEAD
-
-
-
-
 end 
-=======
-end
->>>>>>> a5497a63ea671825f3a58379fa68cc6e1f090d38
-
 
 % tcken options taken from https://github.com/MRtrix3/mrtrix3/blob/master/testing/tests/tckgen
 % tckgen dwi.mif   -algo seedtest    -seed_sphere           0,0,4,4  -number 50000 tmp.tck -force && tckmap tmp.tck -template SIFT_phantom/dwi.mif - | testing_diff_data - tckgen/seed_sphere.mif 1000
