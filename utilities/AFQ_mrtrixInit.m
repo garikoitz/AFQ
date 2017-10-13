@@ -127,56 +127,58 @@ end
 
 % Convert the brain mask from mrDiffusion into a .mif file: 
 if (~computed.('brainmask'))
-  brainMaskFile = fullfile(session, dt_info.files.brainMask); 
-  AFQ_mrtrix_mrconvert(brainMaskFile, ...
+%   brainMaskFile = fullfile(session, dt_info.files.brainMask); 
+    brainMaskFile = dt_info.files.brainMask; 
+    AFQ_mrtrix_mrconvert(brainMaskFile, ...
                        files.brainmask, ...
                        false, ...
                        false, ...
                        mrtrixVersion); 
 end
 
-% Generate diffusion tensors:
-if (~computed.('dt'))
-  AFQ_mrtrix_dwi2tensor(files.dwi, ...
-                        files.dt, ...
-                        files.b,...
-                        0, ...
-                        mrtrixVersion);
-end
-
-% Get the FA from the diffusion tensor estimates: 
-if (~computed.('fa'))
-  AFQ_mrtrix_tensor2FA(files.dt, ...
-                       files.fa, ...
-                       files.brainmask, ...
-                       0, ...
-                       mrtrixVersion);
-end
-
-% Generate the eigenvectors, weighted by FA: 
-if  (~computed.('ev'))
-  AFQ_mrtrix_tensor2vector(files.dt, files.ev, files.fa,0,mrtrixVersion);
-end
-
-% Estimate the response function of single fibers: 
-if (~computed.('response'))
-  AFQ_mrtrix_response(files.brainmask, ...
-                      files.fa, ...
-                      files.sf, ...
-                      files.dwi,...
-                      files.response, ...
-                      files.b, ...
-                      [], ... %this is the threshold string, it was missing!
-                      false, ... % this is show figure
-                      [], ... %bckground
-                      8, ... %lmax
-                      false, ... %verbose
-                      mrtrixVersion) 
-end
+% % Generate diffusion tensors:
+% if (~computed.('dt'))
+%   AFQ_mrtrix_dwi2tensor(files.dwi, ...
+%                         files.dt, ...
+%                         files.b,...
+%                         0, ...
+%                         mrtrixVersion);
+% end
+% 
+% % Get the FA from the diffusion tensor estimates: 
+% if (~computed.('fa'))
+%   AFQ_mrtrix_tensor2FA(files.dt, ...
+%                        files.fa, ...
+%                        files.brainmask, ...
+%                        0, ...
+%                        mrtrixVersion);
+% end
+% 
+% % Generate the eigenvectors, weighted by FA: 
+% if  (~computed.('ev'))
+%   AFQ_mrtrix_tensor2vector(files.dt, files.ev, files.fa,0,mrtrixVersion);
+% end
+% 
+% % Estimate the response function of single fibers: 
+% if (~computed.('response'))
+%   AFQ_mrtrix_response(files.brainmask, ...
+%                       files.fa, ...
+%                       files.sf, ...
+%                       files.dwi,...
+%                       files.response, ...
+%                       files.b, ...
+%                       [], ... %this is the threshold string, it was missing!
+%                       false, ... % this is show figure
+%                       [], ... %bckground
+%                       8, ... %lmax
+%                       false, ... %verbose
+%                       mrtrixVersion) 
+% end
 
 % Create a white-matter mask, tracktography will act only in here.
 if (~computed.('wmMask'))
-  wmMaskFile = fullfile(session, dt_info.files.wmMask);
+  % wmMaskFile = fullfile(session, dt_info.files.wmMask);
+  wmMaskFile = dt_info.files.wmMask;
   AFQ_mrtrix_mrconvert(wmMaskFile, ...
                        files.wmMask, ...
                        [], ...
@@ -188,17 +190,17 @@ end
 
 if ~multishell
     % Compute the CSD estimates: 
-    if (~computed.('csd'))  
-      disp('The following step takes a while (a few hours)');                                  
-      AFQ_mrtrix_csdeconv(files.dwi, ...
-                          files.response, ...
-                          lmax, ...
-                          files.csd, ... %out
-                          files.b, ... %grad
-                          files.brainmask,... %mask
-                          false,... % Verbose
-                          mrtrixVersion)
-    end
+%     if (~computed.('csd'))  
+%       disp('The following step takes a while (a few hours)');                                  
+%       AFQ_mrtrix_csdeconv(files.dwi, ...
+%                           files.response, ...
+%                           lmax, ...
+%                           files.csd, ... %out
+%                           files.b, ... %grad
+%                           files.brainmask,... %mask
+%                           false,... % Verbose
+%                           mrtrixVersion)
+%     end
 
 else
     % Create the 5tt file from the same ac-pc-ed T1 nii we used in the other steps: 
@@ -268,13 +270,13 @@ else
                               mrtrixVersion)
     end
     
-    % RGB tissue signal contribution maps
-    if (~computed.('vf'))  && (mrtrixVersion > 2)
-         % mrconvert -coord 3 0 wm.mif - | mrcat csf.mif gm.mif - vf.mif
-        cmd_str = ['mrconvert -coord 3 0 ' files.wmCsd ' - | ' ...
-                   'mrcat ' files.gmCsd ' ' files.csfCsd ' - ' files.vf];           
-        AFQ_mrtrix_cmd(cmd_str, 0, 0,mrtrixVersion);
-    end
+%     % RGB tissue signal contribution maps
+%     if (~computed.('vf'))  && (mrtrixVersion > 2)
+%          % mrconvert -coord 3 0 wm.mif - | mrcat csf.mif gm.mif - vf.mif
+%         cmd_str = ['mrconvert -coord 3 0 ' files.wmCsd ' - | ' ...
+%                    'mrcat ' files.gmCsd ' ' files.csfCsd ' - ' files.vf];           
+%         AFQ_mrtrix_cmd(cmd_str, 0, 0,mrtrixVersion);
+%     end
     
 end
 

@@ -19,7 +19,7 @@ if ~isempty(afq) && ~isempty(template)
     defaults = spm_get_defaults;
     params = defaults.normalise.estimate;
     tImg = readFileNifti(template);
-        % Allocatge image space
+        % Allocate image space
     fdImg = int32(zeros([size(tImg.data) 24]));
     for ii = 1:length(afq.sub_dirs)
         
@@ -84,5 +84,11 @@ else
     fdNii.data = fdMax;
     fdNii.fname = ['fg_endpoints.nii.gz'];
     clear fdImg
-   [p, msh, lightH] =  AFQ_RenderCorticalSurface(segmentation, 'overlay',fdNii,'boxfilter',3,'thresh',[1 20],'interp','nearest','cmap',colormap);
+    % niftiWrite(fdNii, fdNii.fname)
+    [p, msh, lightH] =  AFQ_RenderCorticalSurface(segmentation, ...
+                            'overlay',fdNii, ...
+                            'boxfilter',1, ...
+                            'thresh',[1 20], ...
+                            'interp','nearest', ...
+                            'cmap',colormap);
 end

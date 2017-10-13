@@ -112,8 +112,15 @@ if mrtrixVersion == 3
         % Build a file name for the tracks that will be generated.
         % THe file name will contain information regarding the files being used to
         % track, mask, csd file etc.
+        if ~isstr(files.csd)
+            files.csd = files.csd{1}; 
+            mask = mask{1};
+            roi = roi{1};
+            files.tt5 = files.tt5{1};
+        end
         [~, pathstr] = strip_ext(files.csd);
-        tck_file = fullfile(pathstr,strcat(strip_ext(files.csd), '_' , strip_ext(roi), '_',...
+        tck_file = fullfile(pathstr, ...
+            strcat(strip_ext(files.csd), '_' , strip_ext(roi), '_', ...
           strip_ext(mask) , '_', algo, '-',num2str(nSeeds),'.tck'));
 
         % Generate the mrtrix-unix command

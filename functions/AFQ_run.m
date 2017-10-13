@@ -126,7 +126,11 @@ for ii = runsubs
     end
     % Load Dt6 File
     dtFile = fullfile(sub_dirs{ii},'dt6.mat');
-    dt     = dtiLoadDt6(dtFile);
+    % dt     = dtiLoadDt6(dtFile);
+    % GLU: lo anterior no va pq no he hecho el tensor fitting con afq. Si
+    % hiciera falta lo tenemos en la carpeta noNorm. 
+    
+    dt = afq.files;
     
     % If ANTS was used to compute a spatial normalization then load it for
     % this subject
@@ -140,23 +144,30 @@ for ii = runsubs
         mkdir(fibDir);
     end 
     % Check if wholebrain tractography should be done
-    if AFQ_get(afq, 'do tracking',ii) == 1
-        % Perform whole-brain tractography
-        fprintf('\nPerforming whole-brain tractograpy for subject %s\n',sub_dirs{ii});
-        fg = AFQ_WholebrainTractography(dt, afq.params.run_mode, afq);
-        % Save fiber group to fibers directory
-        dtiWriteFiberGroup(fg,fullfile(fibDir,'WholeBrainFG.mat'));
-        % Set the path to the fibers in the afq structure
-        afq = AFQ_set(afq,'wholebrain fg path','subnum',ii,fullfile(fibDir,'WholeBrainFG.mat'));
-        % Wholebrain fiber group is already in memory and does not need to
-        % be loaded
-        loadWholebrain = 0;
+    
+    basedir = fileparts(fileparts(fileparts(dtFile)));
+    if ~exist(fullfile(basedir, 'afqOutTracking.mat'))
+        if AFQ_get(afq, 'do tracking',ii) == 1
+            % Perform whole-brain tractography
+            fprintf('\nPerforming whole-brain tractograpy for subject %s\n',sub_dirs{ii});
+            fg = AFQ_WholebrainTractography(dt, afq.params.run_mode, afq);
+            % Save fiber group to fibers directory
+            dtiWriteFiberGroup(fg,fullfile(fibDir,'WholeBrainFG.mat'));
+            % Set the path to the fibers in the afq structure
+            afq = AFQ_set(afq,'wholebrain fg path','subnum',ii,fullfile(fibDir,'WholeBrainFG.mat'));
+            % Wholebrain fiber group is already in memory and does not need to
+            % be loaded
+            loadWholebrain = 0;
+            save(fullfile(basedir, 'afqOutTracking'), 'afq')
+        else
+            fprintf('\nWhole-brain tractography was already done for subject %s',sub_dirs{ii});
+            % Wholebrain fiber group needs to be loaded
+            loadWholebrain = 1;
+        end
     else
-        fprintf('\nWhole-brain tractography was already done for subject %s',sub_dirs{ii});
-        % Wholebrain fiber group needs to be loaded
+        load(fullfile(basedir, 'afqOutTracking'), 'afq')
         loadWholebrain = 1;
     end
-    
     %% Segment 20 Fiber Groups
     
     % Check if fiber group segmentation was already done
