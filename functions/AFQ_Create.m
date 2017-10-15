@@ -1,4 +1,4 @@
-function afq = AFQ_Create(varargin)
+eifunction afq = AFQ_Create(varargin)
 % Create AFQ structure and set default parameters
 %
 %    afq = AFQ_Create(varargin)

@@ -81,7 +81,7 @@ if isstruct(fg_classified) && isfield(fg_classified,'subgroupNames')...
 end
 % if number of nodes doesn't exist then set to 30
 if ~exist('numberOfNodes','var') || isempty(numberOfNodes)
-    numberOfNodes=30;
+    numberOfNodes=100;
 end
 if ~exist('clip2rois','var') || isempty(clip2rois)
     clip2rois=1;
