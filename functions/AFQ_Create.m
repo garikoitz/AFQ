@@ -156,7 +156,7 @@ afq.params.savefigs = false;
 % mrtrix. ) means don't use mrtrix. 1 means use mrtrix with the default
 % lmax (4). Otherwise you can set the lmax by following 'computeCSD' with a
 % scaler.
-afq.params.computeCSD = 0;
+afq.params.computeCSD = 1;
 % Whether or not to comput control group norms
 afq.params.computenorms = 1;
 % Which software package to use for normalization
