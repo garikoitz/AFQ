@@ -140,21 +140,8 @@ end
 %% Read the data
 % Load the dt6 file
 if ischar(dt6File)
-    % dt = dtiLoadDt6(dt6File); % GLU EDITED OJO
-    dt = load(dt6File);
+    dt = dtiLoadDt6(dt6File);
     baseDir = fileparts(dt6File); 
-    % clear ni;
-    ni = niftiRead(fullfile(fileparts(baseDir),'noNorm_dti90trilin','bin','b0.nii.gz'));
-    ni.data(isnan(ni.data)) = 0;
-    b0 = ni.data;
-    dt.b0 = b0;
-    xformToAcpc = ni.qto_xyz;
-    dt.xformToAcpc =xformToAcpc;
-    % Salvarlo para luego poder leer lo mismo
-    save(dt6File, 'xformToAcpc', '-APPEND')
-    save(dt6File, 'b0', '-APPEND')
-    
-     
 else
     dt = dt6File;
     baseDir = fileparts(dt.dataFile);
@@ -198,8 +185,6 @@ im(:,:,:,3) = im(:,:,:,2);
 % Save an image of the spatially normalized data showing the quality of the
 % alignment
 imwrite(makeMontage(im),fullfile(baseDir, 'SpatialNormalization.png'));
-dt.bb = bb;  % GLU added
-save(dt6File, 'bb', '-APPEND')  % GLU added
 
 %% Compute fiber group probabilities using the atlas proceedure of Hua.2008
 % Load the Mori atlas maps these are saved in nifti images
@@ -457,9 +442,3 @@ for ii = 1:size(moriRois, 1)
 end
 
 return;
-
-
-
-
-
-
