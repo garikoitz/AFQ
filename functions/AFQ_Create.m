@@ -213,7 +213,7 @@ if afq.software.mrtrix == 1 && afq.params.computeCSD > 0
     % http://community.mrtrix.org/t/mrtrix-tutorial-error/141
     % Function names change, and there are many new options in mrTrix3.
     % Number of fibers to track. This parameter is only relevant for mrTrix
-    afq.params.track.nfibers =5000000; % Devolverlo a 500000!!!!!!!
+    afq.params.track.nfibers =500000; 
     % Choose algorithm for tracking with mrTrix
     % Options if you have version 2:
     %    'probabilistic tractography': 'SD_PROB'
@@ -224,7 +224,7 @@ if afq.software.mrtrix == 1 && afq.params.computeCSD > 0
     %                         Seedtest, Tensor_Det, Tensor_Prob (default: iFOD2).
     afq.params.track.mrTrixAlgo = 'iFOD2';
     % Specify here if you want multishell true or false.
-    afq.params.track.multishell = true;
+    afq.params.track.multishell = false;
     % In case you are using multishell, specify the tool to be used for 5ttgen
     % script. If you use 'fsl', it will segment the T1 you provided in the
     % beginning. If you use 'freesurfer', you should provide any 'aseg' file
