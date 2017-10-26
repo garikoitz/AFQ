@@ -127,8 +127,7 @@ end
 
 % Convert the brain mask from mrDiffusion into a .mif file: 
 if (~computed.('brainmask'))
-%   brainMaskFile = fullfile(session, dt_info.files.brainMask); 
-    brainMaskFile = dt_info.files.brainMask; 
+    brainMaskFile = fullfile(session, dt_info.files.brainMask); 
     AFQ_mrtrix_mrconvert(brainMaskFile, ...
                        files.brainmask, ...
                        false, ...
@@ -178,8 +177,8 @@ end
 
 % Create a white-matter mask, tracktography will act only in here.
 if (~computed.('wmMask'))
-  % wmMaskFile = fullfile(session, dt_info.files.wmMask);
-  wmMaskFile = dt_info.files.wmMask;
+  wmMaskFile = fullfile(session, dt_info.files.wmMask);
+  
   AFQ_mrtrix_mrconvert(wmMaskFile, ...
                        files.wmMask, ...
                        [], ...
@@ -191,17 +190,17 @@ end
 
 if ~multishell
     % Compute the CSD estimates: 
-%     if (~computed.('csd'))  
-%       disp('The following step takes a while (a few hours)');                                  
-%       AFQ_mrtrix_csdeconv(files.dwi, ...
-%                           files.response, ...
-%                           lmax, ...
-%                           files.csd, ... %out
-%                           files.b, ... %grad
-%                           files.brainmask,... %mask
-%                           false,... % Verbose
-%                           mrtrixVersion)
-%     end
+    if (~computed.('csd'))  
+      disp('The following step takes a while (a few hours)');                                  
+      AFQ_mrtrix_csdeconv(files.dwi, ...
+                          files.response, ...
+                          lmax, ...
+                          files.csd, ... %out
+                          files.b, ... %grad
+                          files.brainmask,... %mask
+                          false,... % Verbose
+                          mrtrixVersion)
+    end
 
 else
     % Create the 5tt file from the same ac-pc-ed T1 nii we used in the other steps: 
@@ -271,13 +270,13 @@ else
                               mrtrixVersion)
     end
     
-%     % RGB tissue signal contribution maps
-%     if (~computed.('vf'))  && (mrtrixVersion > 2)
-%          % mrconvert -coord 3 0 wm.mif - | mrcat csf.mif gm.mif - vf.mif
-%         cmd_str = ['mrconvert -coord 3 0 ' files.wmCsd ' - | ' ...
-%                    'mrcat ' files.gmCsd ' ' files.csfCsd ' - ' files.vf];           
-%         AFQ_mrtrix_cmd(cmd_str, 0, 0,mrtrixVersion);
-%     end
+    % RGB tissue signal contribution maps
+    if (~computed.('vf'))  && (mrtrixVersion > 2)
+         % mrconvert -coord 3 0 wm.mif - | mrcat csf.mif gm.mif - vf.mif
+        cmd_str = ['mrconvert -coord 3 0 ' files.wmCsd ' - | ' ...
+                   'mrcat ' files.gmCsd ' ' files.csfCsd ' - ' files.vf];           
+        AFQ_mrtrix_cmd(cmd_str, 0, 0,mrtrixVersion);
+    end
     
 end
 

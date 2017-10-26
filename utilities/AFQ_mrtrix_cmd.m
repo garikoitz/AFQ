@@ -24,7 +24,7 @@ if notDefined('verbose'),verbose = true;end
 
 % Need to bypass the matlab libraries at the top of the path, by screwing
 % with it:
-orig_ld_path = AFQ_mrtrix_set_ld_path(mrtrixVersion);
+% orig_ld_path = AFQ_mrtrix_set_ld_path(mrtrixVersion);
 
 % This opens another xterm, runs it there and gives you back control of the
 % matlab session:
@@ -51,6 +51,6 @@ end
 if (~bkgrnd && verbose), disp(results); end
 
 % Reset the ld_path:
-setenv('LD_LIBRARY_PATH', orig_ld_path);
+% setenv('LD_LIBRARY_PATH', orig_ld_path);
 
 end

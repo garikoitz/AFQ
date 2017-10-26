@@ -18,17 +18,17 @@ files.b     = strcat(fname_trunk, '.b');
 files.brainmask = strcat(fname_trunk,'_brainmask.mif');
 
 % Generate diffusion tensors:
-% files.dt = strcat(fname_trunk, '_dt.mif');
+files.dt = strcat(fname_trunk, '_dt.mif');
 
 % Get the FA from the diffusion tensor estimates: 
-% files.fa = strcat(fname_trunk, '_fa.mif');
+files.fa = strcat(fname_trunk, '_fa.mif');
 
 % Generate the eigenvectors, weighted by FA: 
-% files.ev = strcat(fname_trunk, '_ev.mif');
+files.ev = strcat(fname_trunk, '_ev.mif');
 
 % Estimate the response function of single fibers: 
-% files.sf = strcat(fname_trunk, '_sf.mif');
-% files.response = strcat(fname_trunk, '_response.txt');
+files.sf = strcat(fname_trunk, '_sf.mif');
+files.response = strcat(fname_trunk, '_response.txt');
 
 % Create a white-matter mask, tracktography will act only in here.
 files.wmMask    = strcat(fname_trunk, '_wmMask.mif');
@@ -41,9 +41,9 @@ if multishell
     % Create tissue type segmentation to be used in multishell: 
     files.tt5 = strcat(fname_trunk, '_5tt.mif');
     % Create per tissue type response file
-%     files.wmResponse = strcat(fname_trunk, '_wmResponse.txt');
-%     files.gmResponse = strcat(fname_trunk, '_gmResponse.txt');
-%     files.csfResponse = strcat(fname_trunk, '_csfResponse.txt');
+    files.wmResponse = strcat(fname_trunk, '_wmResponse.txt');
+    files.gmResponse = strcat(fname_trunk, '_gmResponse.txt');
+    files.csfResponse = strcat(fname_trunk, '_csfResponse.txt');
     
     % OJO, vamos a hacer que todos los sujetos apunten al mismo response
     % average creado antes para el pipeline de analysis conjunto
@@ -59,6 +59,6 @@ if multishell
     files.gmCsd  = strcat(fname_trunk, sprintf('_gmCsd_lmax%i.mif',lmax)); 
     files.csfCsd = strcat(fname_trunk, sprintf('_csfCsd_lmax%i.mif',lmax)); 
     % RGB tissue signal contribution maps
-    % files.vf = strcat(fname_trunk, '_vf.mif');
+    files.vf = strcat(fname_trunk, '_vf.mif');
 end
 end

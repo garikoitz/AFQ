@@ -153,7 +153,7 @@ afq.params.showfigs = true;
 % Save figures? yes or no
 afq.params.savefigs = false;
 % Whether or not to compute constrained spherical deconvolution using
-% mrtrix. ) means don't use mrtrix. 1 means use mrtrix with the default
+% mrtrix. 0 means don't use mrtrix. 1 means use mrtrix with the default
 % lmax (4). Otherwise you can set the lmax by following 'computeCSD' with a
 % scaler.
 afq.params.computeCSD = 1;
@@ -167,7 +167,7 @@ afq.params.imresample = false;
 %% AFQ Fiber Tracking parameters
 % Do fiber tracking with mrdiffusion by default. The other option is
 % 'mrtrix' if it is installed and the data is HARDI
-afq.params.track.algorithm = 'mrdiffusion';
+afq.params.track.algorithm = 'mrtrix';
 % Distance between steps in the tractography algoithm
 afq.params.track.stepSizeMm = 1;
 % Stopping criteria FA<0.2
